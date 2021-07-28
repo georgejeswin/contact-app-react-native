@@ -1,12 +1,37 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { Button } from "react-native-paper";
+import { firebaseApp } from "../util/firebase/Firebase";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  useEffect(() => {
+    firebaseApp.auth().onAuthStateChanged((result) => {
+      if (result) {
+        navigation.replace("HomeScreen");
+      }
+    });
+  }, []);
+  const handleLogin = () => {
+    if (email !== "" && password !== "") {
+      firebaseApp
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((result) => {
+          navigation.replace("HomeScreen");
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      alert("Email or password is wrong");
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.loginText}>Login</Text>
@@ -29,11 +54,7 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={(text) => setPassword(text)}
           style={styles.input}
         />
-        <Button
-          mode="contained"
-          onPress={() => console.log("Pressed")}
-          style={styles.input}
-        >
+        <Button mode="contained" onPress={handleLogin} style={styles.input}>
           Login now
         </Button>
         <Button
@@ -43,7 +64,6 @@ const LoginScreen = ({ navigation }) => {
           New user? sign up !
         </Button>
       </View>
-      <Text>{email}</Text>
     </View>
   );
 };
@@ -58,6 +78,7 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: 30,
     fontWeight: "bold",
+    textAlign: "center",
   },
   input: {
     marginTop: 15,

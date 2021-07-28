@@ -3,14 +3,37 @@ import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { Button } from "react-native-paper";
+import { firebaseApp } from "../util/firebase/Firebase";
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSignup = () => {
+    if (
+      email !== "" &&
+      password !== "" &&
+      confirmPassword !== "" &&
+      password === confirmPassword
+    ) {
+      firebaseApp
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((result) => {
+          console.log(result);
+          navigation.goback();
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      alert("provide correct details");
+    }
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.loginText}>Login</Text>
+      <Text style={styles.loginText}>Sign up</Text>
       <View style={styles.form}>
         <TextInput
           label="Email"
@@ -40,11 +63,7 @@ const SignupScreen = ({ navigation }) => {
           onChangeText={(text) => setConfirmPassword(text)}
           style={styles.input}
         />
-        <Button
-          mode="contained"
-          onPress={() => console.log("Pressed")}
-          style={styles.input}
-        >
+        <Button mode="contained" onPress={handleSignup} style={styles.input}>
           Signup now
         </Button>
         <Button
@@ -54,7 +73,6 @@ const SignupScreen = ({ navigation }) => {
           Already a user? sign in !
         </Button>
       </View>
-      <Text>{email}</Text>
     </View>
   );
 };
@@ -69,6 +87,7 @@ const styles = StyleSheet.create({
   loginText: {
     fontSize: 30,
     fontWeight: "bold",
+    textAlign: "center",
   },
   input: {
     marginTop: 15,
