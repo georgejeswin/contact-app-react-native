@@ -28,6 +28,9 @@ const UpdateScreen = ({ navigation, route }) => {
         .update({
           name: name,
           phone: phone,
+        })
+        .then(() => {
+          navigation.goBack();
         });
     } else {
       alert("Name and Phone number is required");
