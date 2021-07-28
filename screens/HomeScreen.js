@@ -112,7 +112,16 @@ const HomeScreen = ({ navigation }) => {
             keyExtractor={(item, index) => item.id}
             renderItem={({ item }) => {
               return (
-                <TouchableOpacity onPress={() => {}} style={styles.card}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("Update", {
+                      id: item.id,
+                      name: item.name,
+                      phone: item.phone,
+                    })
+                  }
+                  style={styles.card}
+                >
                   <View>
                     <Text
                       style={{
