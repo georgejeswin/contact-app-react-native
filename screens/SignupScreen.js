@@ -21,8 +21,8 @@ const SignupScreen = ({ navigation }) => {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((result) => {
-          console.log(result);
-          navigation.goback();
+          // console.log(result);
+          navigation.navigate("Login");
         })
         .catch((err) => {
           alert(err);

@@ -10,7 +10,7 @@ const AddScreen = ({ navigation }) => {
   const addContact = () => {
     if (name !== "" && phone !== "") {
       const user = firebaseApp.auth().currentUser;
-      console.log(user.uid);
+      // console.log(user.uid);
       firebaseApp
         .firestore()
         .collection("data")
@@ -18,8 +18,8 @@ const AddScreen = ({ navigation }) => {
         .collection("contacts")
         .add({ name: name, phone: phone })
         .then((result) => {
-          console.log(result);
-          navigation.goBack();
+          // console.log(result);
+          navigation.navigate("HomeScreen");
         })
         .catch((err) => {
           alert(err);

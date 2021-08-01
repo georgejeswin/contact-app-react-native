@@ -38,7 +38,7 @@ const UpdateScreen = ({ navigation, route }) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Add Contact</Text>
+      <Text style={styles.text}>Edit Contact</Text>
       <TextInput
         value={name}
         onChangeText={(text) => setName(text)}
@@ -60,7 +60,7 @@ const UpdateScreen = ({ navigation, route }) => {
         icon="plus"
         onPress={addContact}
       >
-        Add Contact
+        Edit Contact
       </Button>
     </View>
   );
